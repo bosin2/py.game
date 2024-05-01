@@ -1,0 +1,81 @@
+import msvcrt
+from random import choice
+import time
+
+def main():
+    start_game()
+    print("< 시작하기(y)")
+    while True:
+        key = msvcrt.getch().decode('utf-8').lower()
+        if key == 'y':
+            start_game()
+            break
+    start_intro()
+    main_menu()
+    
+    
+def start_game():
+    print("두근 두근 러브 학점 프로젝트")
+    
+
+def start_intro():
+    dialogues = [ 
+        "준영이 : 아 큰일났다 망했다 아 시험 어떡하지 \n"
+        "수뭉이요정 : 힘들어하는 준영이의 목소리를 듣고 요정 등장 ! \n"
+        "준영이 : 아 깜짝아 아 뭐야 아 이게 뭐지 벌레인가 \n"
+        "수뭉이요정 : 준영아! 걱정마! 내가 첫날로 시간을 되돌려줄게 \n"
+        "준영이 : 아 진짜 아 진짜 그러면 좋겠다 \n"
+        "수뭉이요정 : 웅 ! \n"
+        "준영이 : 어어? 갑자기 머리가 (시야가 핑 돈다) \n"
+        "준영이 : 아 안돼 시험 망치고 죽다니...(털석) \n"
+        "수뭉이요정 : 후후...이번엔 열심히해 준영아 ! \n"
+        "이 때 들은 말을 끝으로 나는 정말로 입학 첫날로 돌아왔다 \n"
+        "준영이 : 수뭉이는... 실존했구나. 사랑해요 상명대 ! \n"
+   ]
+    for dialogue in dialogues:
+        for char in dialogue:
+            print(char,end='', flush = True)
+            time.sleep(0.05)
+
+def main_menu():
+    print("스케쥴 표 (a)\n")
+    print("교수님 만나기 (s)\n")
+    print("자판기 (d)\n")
+    print("스탯 확인 (f)\n")
+    choice = input("무엇을 하시겠습니까? : ")
+    if choice == 'a':
+        schedule()
+    elif choice == 's':
+        professor()
+    elif choice == 'd':
+        store()
+    elif choice == 'f':
+        status()
+
+def schedule():
+    print("준영이의 세 달을 정해주세요!")
+    # 스케쥴 메뉴 처리 코드 추가
+
+def professor():
+    print("김교수님 만나러 가기 (1)")
+    print("박교수님 만나러 가기 (2)")
+    choice = input("무엇을 하시겠습니까? : ")
+    if choice == 1:
+        professor1()
+
+
+def professor1():
+    print("준영이 : 김교수님 계세요?")
+
+def store():
+    print("맛이 좋은 초록 이슬")
+    # 자판기 메뉴 처리 코드 추가
+
+def status():
+    print("스탯 확인")
+    # 스탯 메뉴 처리 코드 추가
+
+
+
+if __name__ == "__main__":
+    main()
