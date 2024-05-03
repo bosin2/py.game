@@ -6,7 +6,9 @@ import time
 def main():
     start_game()
     print("< 시작하기(y)")
+    #키 누르자마자 실행하는 코드인데 input으로 받아도됨
     while True:
+    #유니 코드 변환해서 바로 입력 해주는거
         key = msvcrt.getch().decode('utf-8').lower()
         if key == 'y':
             start_game()
