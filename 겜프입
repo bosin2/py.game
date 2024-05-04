@@ -1,24 +1,72 @@
 import msvcrt
 from random import choice
 import time
+#스탯
+total_brain = 10
+total_health = 50
+total_stress = 0
+total_code = 0
+total_money = 50
+#스챗 +들
+def brain(amount):
+    global total_brain
+    total_brain += amount
+
+def health(amount):
+    global total_health
+    total_health += amount
+
+def streas(amount):
+    global total_stress
+    total_stress += amount
+
+def code(amount):
+    global total_code
+    total_code += amount
+
+def money(amount):
+    global total_money
+    total_money += amount
+#스탯 -들
+def minus_brain(amount):
+    global total_brain
+    total_brain -= amount
+
+def minus_health(amount):
+    global total_health
+    total_health -= amount
+
+def minus_streas(amount):
+    global total_stress
+    total_stress -= amount
+
+def minus_code(amount):
+    global total_code
+    total_code -= amount
+
+def minus_money(amount):
+    global total_money
+    total_money -= amount
+
+
 
     #게임 진행하는 코드
 def main():
     start_game()
-    print("< 시작하기(y)")
-    #키 누르자마자 실행하는 코드인데 input으로 받아도됨
-    while True:
-    #유니 코드 변환해서 바로 입력 해주는거
-        key = msvcrt.getch().decode('utf-8').lower()
-        if key == 'y':
-            start_game()
-            break
-    start_intro()
-    main_menu()
+    choice = input("< 시작하기(y)\n")
+
+    if (choice == 'y'):
+    
+        start_intro()
+        main_menu()
+    else:
+        print("시작하기 싫으세요?\n")
+        main()
+        
     
     
 def start_game():
-    print("두근 두근 러브 학점 프로젝트")
+    print("두근 두근 러브 학점 프로젝트\n")
     
     #인트로와,인투로 한글자씩 출력해주는 코드
 def start_intro():
@@ -33,12 +81,12 @@ def start_intro():
         "준영이 : 아 안돼 시험 망치고 죽다니...(털석) \n"
         "수뭉이요정 : 후후...이번엔 열심히해 준영아 ! \n"
         "이 때 들은 말을 끝으로 나는 정말로 입학 첫날로 돌아왔다 \n"
-        "준영이 : 수뭉이는... 실존했구나. 사랑해요 상명대 ! \n"
+        "준영이 : 수뭉이는... 실존했구나. 사랑해요 상명대 ! \n\n"
    ]
     for dialogue in dialogues:
         for char in dialogue:
             print(char,end='', flush = True)
-            time.sleep(0.05)
+            time.sleep(0.08)
 
     #인트로 후 메인메뉴
 def main_menu():
@@ -46,7 +94,7 @@ def main_menu():
     print("교수님 만나기 (s)\n")
     print("자판기 (d)\n")
     print("스탯 확인 (f)\n")
-    choice = input("무엇을 하시겠습니까? : ")
+    choice = input("무엇을 하시겠습니까? : \n")
     if choice == 'a':
         schedule()
     elif choice == 's':
@@ -55,43 +103,85 @@ def main_menu():
         store()
     elif choice == 'f':
         status()
+    else:
+        print("제대로 선택 하세요.")
+        main_menu
+        return
 
 
     # 스케쥴 메뉴
 def schedule():
-    print("준영이의 세 달을 정해주세요!")
+    print("준영이의 세 달을 정해주세요!\n")
+    while True:
+        choice = input("메뉴로 돌아가기(1): ")
+        if choice == '1':
+            main_menu()
+            break
+        else:
+            print("제대로 입력하시라고요.")
     
     #교수만나기메뉴
 def professor():
-    print("김교수님 만나러 가기 (1)")
-    print("박교수님 만나러 가기 (2)")
-    choice = input("무엇을 하시겠습니까? : ")
+    print("김교수님 만나러 가기 (1)\n")
+    print("박교수님 만나러 가기 (2)\n")
+    print("메누로 돌아가기(3)\n")
+    choice = input("무엇을 하시겠습니까? : \n")
 
     #교수님 선택
     if choice == 1:
         professor1()
 
-    else if choice == 2:
+    elif choice == 2:
         professor2()
+    elif choice == 3:
+        main_menu()
+    else:
+        print("다시 입력하세요. 제발.\n")
+        professor
 
     #박교수님 선택
 def professor2():
-     print("준영이 : 박교수님 계세요?")
+     print("준영이 : 박교수님 계세요?\n")
 
     #김교수님 선택
 def professor1():
-    print("준영이 : 김교수님 계세요?")
+    print("준영이 : 김교수님 계세요?\n")
 
     # 자판기 메뉴
 def store():
-    print("맛이 좋은 초록 이슬")
+    print("맛이 좋은 초록 이슬 (스트레스 -20, 지능 -5)\n")
+    print("스x피 커피우유 \n")
+    print("맛이 좋은 초록 이슬\n")
+    print("맛이 좋은 초록 이슬\n")
+    print("맛이 좋은 초록 이슬\n")
+    print("맛이 좋은 초록 이슬\n")
+
     
     # 스탯 메뉴 
 def status():
-    print("스탯 확인")
+    print("스탯 확인\n")
+    print("지능:",total_brain)
+    print("체력:",total_health)
+    print("스트레스:",total_stress)
+    print("코딩실력:",total_code)
+    print("소지금:",total_money)
+
+    while True:
+        choice = input("메뉴로 돌아가기(1): ")
+        if choice == '1':
+            main_menu()
+            break
+        else:
+            print("제대로 입력하시라고요.")
+
+
+
     
 
 
+    #main 코드만 실행되게하는 코드(name은 현재 진행중인 코드를 뜻함)
+if __name__ == "__main__":
+        main()
     #main 코드만 실행되게하는 코드(name은 현재 진행중인 코드를 뜻함)
 if __name__ == "__main__":
     main()
