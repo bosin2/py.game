@@ -27,6 +27,7 @@ def code(amount):
 def money(amount):
     global total_money
     total_money += amount
+
 #스탯 -들
 def minus_brain(amount):
     global total_brain
@@ -149,12 +150,30 @@ def professor1():
 
     # 자판기 메뉴
 def store():
-    print("맛이 좋은 초록 이슬 (스트레스 -20, 지능 -5)\n")
-    print("스x피 커피우유 \n")
-    print("맛이 좋은 초록 이슬\n")
-    print("맛이 좋은 초록 이슬\n")
-    print("맛이 좋은 초록 이슬\n")
-    print("맛이 좋은 초록 이슬\n")
+    print("무엇을 마시던 상상이상!! 구매하지 않으면 불행이 옵니다.\n\n")
+    print("1. 맛이 좋은 초록 이슬 '스트레스 -20, 지능 -5'\n")
+    print("      - (5원) 마시면 기분이 좋아집니다 -\n")
+    print("2. 스x피 커피우유 '스트레스 +5, 지능 +10'\n")
+    print("      - (10원) 저런...잠을 잘자야 키가 커 준영아 -\n")
+    print("3. 맛이 좋지 않은 사약 한 접시 '체력 +20 스트레스 +10'\n")
+    print("      - (15원) 사약은 몸에 좋은 재료로 이루어져 있다는 사실 -")
+    print("4. 딸기 맛이 나는 해열제 '스트레스 -20'\n")
+    print("      - (10원) 준영아 힘내! 아프지마 유유. -\n")
+    print("5. 색이알록달록한버섯을우린물 '코딩실력 +10. 지능 +10, 스트레스 -10, 체력 -20 \n")
+    print("      - (25원) 히히...이거 마시면 나도 코딩을... -\n")
+    choice = input("무엇을 드시겠아요? 아무것도 마시지 않는건 안됩니다. :")
+    if choice == '1':
+        print("스트레스가 해소되고 지능이 떨어졌다 !\n")
+        minus_streas(20)
+        minus_brain(5)
+        minus_money(5)
+        main_menu()
+    elif choice == '2':
+        streas(5)
+        brain(10)
+
+
+    
 
     
     # 스탯 메뉴 
@@ -182,6 +201,3 @@ def status():
     #main 코드만 실행되게하는 코드(name은 현재 진행중인 코드를 뜻함)
 if __name__ == "__main__":
         main()
-    #main 코드만 실행되게하는 코드(name은 현재 진행중인 코드를 뜻함)
-if __name__ == "__main__":
-    main()
