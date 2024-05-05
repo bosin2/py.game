@@ -7,47 +7,38 @@ total_health = 50
 total_stress = 0
 total_code = 0
 total_money = 50
-#스챗 +들
+
+#스챗 증감들
 def brain(amount):
     global total_brain
-    total_brain += amount
+    if total_brain >0:
+        pass
+        total_brain += amount
 
 def health(amount):
     global total_health
-    total_health += amount
+    if total_health >0:
+        pass
+        total_health += amount
 
 def streas(amount):
     global total_stress
-    total_stress += amount
+    if total_stress >0:
+        pass
+        total_stress += amount
+    
 
 def code(amount):
     global total_code
-    total_code += amount
+    if total_code >0:
+        pass
+        total_code += amount
 
 def money(amount):
     global total_money
-    total_money += amount
-
-#스탯 -들
-def minus_brain(amount):
-    global total_brain
-    total_brain -= amount
-
-def minus_health(amount):
-    global total_health
-    total_health -= amount
-
-def minus_streas(amount):
-    global total_stress
-    total_stress -= amount
-
-def minus_code(amount):
-    global total_code
-    total_code -= amount
-
-def minus_money(amount):
-    global total_money
-    total_money -= amount
+    if total_money >0:
+        pass
+        total_money += amount
 
 
 
@@ -105,7 +96,7 @@ def main_menu():
     elif choice == 'f':
         status()
     else:
-        print("제대로 선택 하세요.")
+        print("제대로 선택 하세요.\n")
         main_menu
         return
 
@@ -114,31 +105,31 @@ def main_menu():
 def schedule():
     print("준영이의 세 달을 정해주세요!\n")
     while True:
-        choice = input("메뉴로 돌아가기(1): ")
+        choice = input("메뉴로 돌아가기(1): \n")
         if choice == '1':
             main_menu()
             break
         else:
-            print("제대로 입력하시라고요.")
+            print("제대로 입력하시라고요.\n")
     
     #교수만나기메뉴
 def professor():
     print("김교수님 만나러 가기 (1)\n")
     print("박교수님 만나러 가기 (2)\n")
-    print("메누로 돌아가기(3)\n")
+    print("메누로 돌아가기 (3)\n")
     choice = input("무엇을 하시겠습니까? : \n")
 
     #교수님 선택
-    if choice == 1:
+    if choice == '1':
         professor1()
 
-    elif choice == 2:
+    elif choice == '2':
         professor2()
-    elif choice == 3:
+    elif choice == '3':
         main_menu()
     else:
         print("다시 입력하세요. 제발.\n")
-        professor
+        professor()
 
     #박교수님 선택
 def professor2():
@@ -150,27 +141,79 @@ def professor1():
 
     # 자판기 메뉴
 def store():
+    if money <=4:
+        print("돈도 없으면서 뭘 사시려고요 ? 가서 돈벌어와 ")
+        main_menu()
     print("무엇을 마시던 상상이상!! 구매하지 않으면 불행이 옵니다.\n\n")
-    print("1. 맛이 좋은 초록 이슬 '스트레스 -20, 지능 -5'\n")
+    print("1. 맛이 좋은 초록 이슬 '스트레스 -20, 지능 -5' ")
     print("      - (5원) 마시면 기분이 좋아집니다 -\n")
-    print("2. 스x피 커피우유 '스트레스 +5, 지능 +10'\n")
+    print("2. 스x피 커피우유 '스트레스 +5, 지능 +10' ")
     print("      - (10원) 저런...잠을 잘자야 키가 커 준영아 -\n")
-    print("3. 맛이 좋지 않은 사약 한 접시 '체력 +20 스트레스 +10'\n")
-    print("      - (15원) 사약은 몸에 좋은 재료로 이루어져 있다는 사실 -")
-    print("4. 딸기 맛이 나는 해열제 '스트레스 -20'\n")
+    print("3. 맛이 좋지 않은 사약 한 접시 '스트레스 +10, 체력 +20' ")
+    print("      - (15원) 사약은 몸에 좋은 재료로 이루어져 있다는 사실 -\n")
+    print("4. 딸기 맛이 나는 해열제 '스트레스 -20' ")
     print("      - (10원) 준영아 힘내! 아프지마 유유. -\n")
-    print("5. 색이알록달록한버섯을우린물 '코딩실력 +10. 지능 +10, 스트레스 -10, 체력 -20 \n")
+    print("5. 색이알록달록한버섯을우린물 '스트레스 -10, 코딩실력 +10, 지능 +10, 체력 -20' ")
     print("      - (25원) 히히...이거 마시면 나도 코딩을... -\n")
-    choice = input("무엇을 드시겠아요? 아무것도 마시지 않는건 안됩니다. :")
+
+    
+    choice = input("무엇을 드시겠아요? 설마 아무것도 마시지 않는건 아니죠? (y/n) \n")
     if choice == '1':
+        if money >= 4:
+            print("소지금이 부족합니다...(거-지)\n")
         print("스트레스가 해소되고 지능이 떨어졌다 !\n")
-        minus_streas(20)
-        minus_brain(5)
-        minus_money(5)
+        print("이슬은 아이셔가 맛있는데\n")
+        streas(-20)
+        brain(-5)
+        money(-5)
         main_menu()
     elif choice == '2':
+        if money >= 9:
+            print("소지금이 부족합니다...[거-지]\n")
+        print("스트레스를 받고 지능이 올라갔다 !")
+        print("공부 화이팅... 카페인은 조금만\n")
         streas(5)
         brain(10)
+        main_menu()
+    elif choice == '3':
+        if money >= 14:
+            print("소지금이 부족합니다...[거-지]\n")
+        print("스트레스를 받고 체력이 올라갔다 !")
+        print("우웩 너무 맛없어 하지만 먹는건 준영이다 화이팅 ! >o< \n")
+        streas(10)
+        brain(-20)
+        main_menu()
+    elif choice == '4':
+        if money >= 9:
+            print("소지금이 부족합니다...[거-지]\n")
+        print("스트레스가 해소되었다 !")
+        print("아플때까지 공부하지는 말기로 ㅜㅅㅜ \n")
+        streas(-20)
+        main_menu()
+    elif choice == '5':
+        if money >= 24:
+            print("소지금이 부족합니다...[거-지]\n")
+        print("스트레스가 해소되고 체력이 떨어지고 코딩실력과 지능이 올라갔다 !")
+        print("코딩 능력자가 되기 위해서는 뭐든 할 수 있어...\n")
+        streas(-10)
+        brain(10)
+        code(10)
+        health(-20)
+        main_menu()
+    elif choice == 'y':
+        print("아무것도 사지 않으시겠다고요? \n")
+        print("그렇다면... 버섯을 강제로 먹이겠습니다.\n")
+        print("스트레스를 10 받았다. 우웩 \n")
+        streas(10)
+        main_menu()
+    elif choice == 'n':
+        print("감사합니다! 자판기 숫자를 선택해서 구매하시면 됩니다! \n")
+        store()
+    else:
+        print("뭐하세요? 뭐든 하세요.")
+        store()
+
+        
 
 
     
@@ -183,10 +226,10 @@ def status():
     print("체력:",total_health)
     print("스트레스:",total_stress)
     print("코딩실력:",total_code)
-    print("소지금:",total_money)
+    print("소지금:\n",total_money)
 
     while True:
-        choice = input("메뉴로 돌아가기(1): ")
+        choice = input("메뉴로 돌아가기 (1): ")
         if choice == '1':
             main_menu()
             break
