@@ -1,7 +1,6 @@
-from random import choice
 import time
 import random
-from tkinter import N
+import os
 
 
 #글자 한글자씩 출력해주는 함수
@@ -101,6 +100,7 @@ def main():
 
     if (choice == 'y'):
         start_intro()
+        os.system('cls')
         time.sleep(1)
         main_menu()
     else:
@@ -249,7 +249,7 @@ def professor1():
                 time.sleep(0.08)
 
     print_slow("준영이 : 박교수님 계세요?\n")
-    if total_brain >= 10:
+    if total_brain > 10:
         if total_brain >= 10:
             print_slow("아 준영이 안녕~\n")
             print_slow("1. 그냥요\n")
@@ -257,18 +257,18 @@ def professor1():
 
             choice = input("어떤 대답을 할까? :\n")
             if choice == '1':
-                print_slow("\"그러니. 내가 좀 바빠서 미안해 ㅠㅠ.\"\n")
+                print_slow("\"그러니. 내가 좀 바빠서 미안해 (•_•).\"\n")
                 print_slow("쫓겨났다...\n")
                 like1 = proheart1()
                 total_proheart1 = -like1
-                print(f"김교수님의 호감도가 {like1} 내려가서 {total_proheart1}가 되었다\n")
+                print(f"김교수님의 호감도가 {like1} 내려가서 {total_proheart1}가 되었다 (┬┬﹏┬┬) \n")
                 main_menu()
             elif choice == '2':
                 print_slow("\"아이고 그렇구나 잠시만, 여기 앉으면 돼\"\n")
                 print_slow("준영이와 박교수님은 재밌게 대화를 나눴다\n")
                 like1 = proheart1()
                 total_proheart1 = like1
-                print(f"박교수님의 호감도가 {like1} 올라서 {total_proheart1}가 되었다")
+                print(f"박교수님의 호감도가 {like1} 올라서 {total_proheart1}가 되었다 !")
                 main_menu()
             else:
                 print_slow("진짜 그럴거에요?\n")
@@ -313,9 +313,9 @@ def professor2():
                 print_slow("진짜 그럴거에요?\n")
                 main_menu()
     
-        elif total_brain < 20 or total_code < 20:
-            print_slow("김석규 교수님은 자리에 안계시는 것 같다.")
-            main_menu()
+    elif total_brain < 20 or total_code < 20:
+        print_slow("김석규 교수님은 자리에 안계시는 것 같다.")
+        main_menu()
 
 
 
