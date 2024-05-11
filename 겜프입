@@ -2,17 +2,19 @@ import time
 import random
 import os
 import ctypes
+from turtle import speed
 
-
+#터미널위치를임의로지정
 class COORD(ctypes.Structure):
-    _fields_ = [("X", ctypes.c_short), ("Y", ctypes.c_short)]
+        _fields_ = [("X", ctypes.c_short), ("Y", ctypes.c_short)]
 
+#좌표임의로생성
 class SMALL_RECT(ctypes.Structure):
     _fields_ = [("Left", ctypes.c_short),
                 ("Top", ctypes.c_short),
                 ("Right", ctypes.c_short),
                 ("Bottom", ctypes.c_short)]
-
+#콘솔창 영역 설정
 def set_console_size(width, height):
     STD_OUTPUT_HANDLE = -11
     handle = ctypes.windll.kernel32.GetStdHandle(STD_OUTPUT_HANDLE)
@@ -21,8 +23,18 @@ def set_console_size(width, height):
         rect = SMALL_RECT(0, 0, width - 1, height - 1)
         ctypes.windll.kernel32.SetConsoleWindowInfo(handle, True, ctypes.byref(rect))
         
+#커서 위치 수정해주는코드
+kernel32 = ctypes.windll.kernel32
 def move_cursor(x,y):
-    os.system(f"printf '\033[{y};{x}H'")
+    class COORD(ctypes.Structure):
+        _fields_ = [("X", ctypes.c_short), ("Y", ctypes.c_short)]
+        
+
+    coord = COORD()
+    coord.X = x
+    coord.Y = y
+    kernel32.SetConsoleCursorPosition(kernel32.GetStdHandle(-11), coord)
+
     
 def print_at(x,y, text):
     move_cursor(x, y)
@@ -39,13 +51,27 @@ def color_print(text, color):
         'magenta': '\033[35m',
         'cyan': '\033[36m',
         'white': '\033[37m',
-        'reset': '\033[0m'
+        'reset': '\033[0m',
+        'pink': '\033[95m'
     }
     color_code = colors.get(color.lower())
     if color_code:
         print(color_code + text + colors['reset'])
     else:
         print("Invalid color")
+#핑크색        
+def color_print2(text):
+    color_code = "\033[38;2;255;192;203m"
+    reset_code = "\033[0m"
+    print(color_code + text + reset_code)
+    
+#rgb값으로 출력하는거    
+def color_print3(text, r, g, b):
+    color_code = f"\033[38;2;{r};{g};{b}m"
+    reset_code = "\033[0m"
+    print(color_code + text + reset_code)
+
+
         
    #색입힌글씨하나씩출력     
 def color_print_slow(text, color):
@@ -58,7 +84,8 @@ def color_print_slow(text, color):
         'magenta': '\033[35m',  
         'cyan': '\033[36m',
         'white': '\033[37m',
-        'reset': '\033[0m'
+        'reset': '\033[0m',
+        'pink': '\033[95m'
     }
     color_code = colors.get(color.lower())
     if color_code:
@@ -79,7 +106,7 @@ def color_print_slow(text, color):
 def print_slow(text):
     for char in text:
         print(char, end='', flush=True)
-        time.sleep(0.08)
+        time.sleep(0.06)
 
 #일정 돌아가는 개월
 total_select_month = 0
@@ -103,39 +130,51 @@ scheduleList = []
 
 #일정 증감
 def schedule_UpDown():
+    def print_slow(text):
+        for char in text:
+            print(char, end='', flush=True)
+            time.sleep(0.05)
     global total_brain, total_code, total_health, total_money, total_stress, scheduleList, total_select_month
     os.system('cls')
     for i in range(0,3):
         if scheduleList[i] == '알바 가기':
             for week in range(1,5):
                 m, h, s = week_UpDown1()
-                print_slow(f"{week}주째...  알바를 하면서...  소지금이 {m}원 올랐다!  체력이{h} 올랐다!  스트레스가 {-s} 내렸다!  \n\n")
-
+                move_cursor(0,10)
+                print_slow(f"{week}주째...  알바를 하면서...  소지금이 {m}원 올랐다!  체력이{h} 올랐다!  스트레스가 {s} 올랐다!  \n\n")
+                
         elif scheduleList[i] == '운동 하기':
             for week in range(1,5):
                 h, s = week_UpDown2()
+                move_cursor(0,10)
                 print_slow(f"{week}주째...  운동을 하면서...  체력이 {h} 올랐다!  스트레스가 {-s} 내렸다!  \n\n")
 
         elif scheduleList[i] == '일반 공부':
             for week in range(1,5):
                 b, s, h = week_UpDown3()
+                move_cursor(0,10)
                 print_slow(f"{week}주째...  일반 공부를 하면서...  지능이 {b} 올랐다!  스트레스가 {s} 올랐다!  체력이 {-h} 내렸다!  \n\n")
 
         elif scheduleList[i] == '코딩 공부':
             for week in range(1,5):
                 c, h, s = week_UpDown4()
+                move_cursor(0,10)
                 print_slow(f"{week}주째...  코딩 공부를 하면서...  코딩 실력이 {c} 올랐다!  체력이 {-h} 내렸다!  스트레스가 {s} 올랐다!\n\n")
             
         elif scheduleList[i] == '재밌게 놀기':
             for week in range(1,5):
                 m, h, s = week_UpDown5()
+                move_cursor(0,10)
                 print_slow(f"{week}주째...  놀면서...  소지금이 {m}원 내렸다!  체력이 {h} 올랐다!  스트레스가 {-s} 내렸다!\n\n")
 
 
         #일정을 총 몇달 돌렸는지 확인하는 변수
         total_select_month += 1
-
-    #메인 화면으로 돌아가기 
+    def print_slow(text):
+        for char in text:
+            print(char, end='', flush=True)
+            time.sleep(0.15)
+    print_slow("집으로 돌아가는 중. . .")
     main_menu()
     
     
@@ -354,7 +393,7 @@ def death():
         for char in text:
             print(char, end='', flush=True)
             time.sleep(0.1)
-            move_cursor(50,25)
+    move_cursor(50,25)
     color_print_slow(
         "준영이는 스트레스로 병에 걸려 생을 마감했습니다...\n"+
         "\n"+
@@ -376,65 +415,66 @@ def start_game():
     def print_slow(text):
             for char in text:
                 print(char, end='', flush=True)
-                time.sleep(0.15)
-    print("                                                                                              ")
-    print("   ■■■■■■         ■■■■■■                      ■■■■■■         ■■■■■■   ")
-    print("   ■                             ■                      ■                             ■   ")
-    print("   ■                             ■                      ■                             ■   ")
-    print("   ■■■■■■                   ■                      ■■■■■■                   ■   ")
-    print("                       ■■■■■■■                                         ■■■■■■■  ")
-    print("  ■■■■■■■         ■                              ■■■■■■■         ■            ")
-    print("        ■               ■                                    ■               ■            ")
-    print("        ■               ■                                    ■               ■            ")
-    print("        ■               ■■■■■■                          ■               ■■■■■■  ")
-    
-    print("  ■■■■■    ■        ■        ■                      ■       ■                     ■")
-    print("          ■    ■        ■        ■                 ■■■■■■  ■       ■■■■■■  ■")
-    print("          ■    ■        ■■■■■■                  ■      ■   ■■         ■■      ■")
-    print("  ■■■■■■■■        ■        ■                  ■      ■   ■          ■  ■   ■■")
-    print("  ■            ■        ■        ■                    ■■■     ■        ■      ■   ■")
-    print("  ■            ■        ■■■■■■                                                      ■")
-    print("  ■■■■■    ■                                        ■■■■■             ■■■■■     ")
-    print("                ■      ■■■■■■■■                          ■             ■      ■     ")
-    print("                                                                  ■             ■■■■■     ")
- 
-    print("    ■■■■■■■        ■■■■■■          ■■■■■  ■  ■          ■■■■■■      ")
-    print("      ■      ■                    ■              ■      ■  ■          ■                ")
-    print("      ■      ■          ■■■■■■              ■■■■■  ■          ■■■■■■      ")
-    print("      ■      ■          ■                      ■  ■    ■  ■          ■                ")
-    print("    ■■■■■■■        ■■■■■■          ■      ■  ■  ■          ■■■■■■      ")
-    print("                                                                                              ")
-    print("                               ■                      ■■■■■          ■■■■■■■■   ")
-    print("    ■■■■■■■       ■■■■■■■                        ■                             ")
-    print("                                                               ■                             ")
+                time.sleep(0.06)
+    print("                                                                                                              ")
+    color_print2("   ■■■■■■         ■■■■■■                      ■■■■■■         ■■■■■■    ")
+    color_print2("   ■                             ■                      ■                             ■   ")
+    color_print2("   ■                             ■                      ■                             ■   ")
+    color_print2("   ■■■■■■                   ■                      ■■■■■■                   ■   ")
+    color_print2("                       ■■■■■■■                                         ■■■■■■■  ")
+    color_print2("  ■■■■■■■         ■                              ■■■■■■■         ■            ")
+    color_print2("        ■               ■                                    ■               ■            ")
+    color_print2("        ■               ■                                    ■               ■            ")
+    color_print2("        ■               ■■■■■■                          ■               ■■■■■■  ")
+    print("\n")
+    color_print2("  ■■■■■    ■        ■        ■                      ■       ■                     ■")
+    color_print2("          ■    ■        ■        ■                 ■■■■■■  ■       ■■■■■■  ■")
+    color_print2("          ■    ■        ■■■■■■                  ■      ■   ■■         ■■      ■")
+    color_print2("  ■■■■■■■■        ■        ■                  ■      ■   ■          ■  ■   ■■")
+    color_print2("  ■            ■        ■        ■                    ■■■     ■        ■      ■   ■")
+    color_print2("  ■            ■        ■■■■■■                                                      ■")
+    color_print2("  ■■■■■    ■                                        ■■■■■             ■■■■■   ")
+    color_print2("                ■      ■■■■■■■■                          ■             ■      ■   ")
+    color_print2("                                                                  ■             ■■■■■   ")
+    print("\n")
+    color_print2("    ■■■■■■■        ■■■■■■          ■■■■■  ■  ■          ■■■■■■      ")
+    color_print2("      ■      ■                    ■              ■      ■  ■          ■                ")
+    color_print2("      ■      ■          ■■■■■■              ■■■■■  ■          ■■■■■■      ")
+    color_print2("      ■      ■          ■                      ■  ■    ■  ■          ■                ")
+    color_print2("    ■■■■■■■        ■■■■■■          ■      ■  ■  ■          ■■■■■■      ")
+    color_print2("                                                                                              ")
+    color_print2("                               ■                      ■■■■■          ■■■■■■■■   ")
+    color_print2("    ■■■■■■■       ■■■■■■■                        ■                             ")
+    color_print2("                                                               ■                             ")
     time.sleep(1)
     print_slow("     ver. 교수님과의 러브러브 만남\n")
     
     #인트로
 def start_intro():
     os.system('cls')
-    print_slow( 
-        "준영이 : 아 큰일났다 망했다 아 시험 어떡하지 \n"+
-        "\n"+
-        "*수뭉이요정* : 힘들어하는 준영이의 목소리를 듣고 요정 등장 ! \n"+
-        "\n"+
-        "준영이 : 아 깜짝아 아 뭐야 아 이게 뭐지 벌레인가 \n"+
-        "\n"+
-        "*수뭉이요정* : 준영아! 걱정마! 내가 첫날로 시간을 되돌려줄게 \n"+
-        "\n"+
-        "준영이 : 아 진짜 아 진짜 그러면 좋겠다 \n"+
-        "\n"+
-        "*수뭉이요정* : 웅 ! \n"+
-        "\n"+
-        "준영이 : 어어? 갑자기 머리가 (시야가 핑 돈다)\n"+
-        "\n"+
-        "준영이 : 아 안돼 시험 망치고 죽다니...(털석)\n"+
-        "\n"+
-        "*수뭉이요정* : 후후...이번엔 열심히해 준영아 ! \n"+
-        "\n"+
-        "이 때 들은 말을 끝으로 나는 정말로 입학 첫날로 돌아왔다... \n"+
-        "\n"+
-        "준영이 : 수뭉이는... 실존했구나. 사랑해요 상명대! \n\n")
+    move_cursor(1,10)
+    print_slow(
+        "준영이 : 아 큰일났다 망했다 아 시험 어떡하지 \n" +
+    "\n" +
+    " \033[36m *수뭉이요정* :힘들어하는 준영이의 목소리를 듣고 요정 등장 !\033[0m \n" +
+    "\n" +
+    " 준영이 : 아 깜짝아 아 뭐야 아 이게 뭐지 벌레인가 \n" +
+    "\n" +
+    " \033[36m *수뭉이요정* : 준영아! 걱정마! 내가 첫날로 시간을 되돌려줄게\033[0m \n" + 
+    "\n" +
+    " 준영이 : 아 진짜 아 진짜 그러면 좋겠다 \n" +
+    "\n" +
+    " \033[36m *수뭉이요정* : 웅 !\033[0m \n" + 
+    "\n" +
+    " 준영이 : 어어? 갑자기 머리가 (시야가 핑 돈다)\n" +
+    "\n" +
+    " 준영이 : 아 안돼 시험 망치고 죽다니...(털석)\n" +
+    "\n" +
+    " \033[36m *수뭉이요정* : 후후...이번엔 열심히해 준영아 ! \033[0m\n" +
+    "\n" +
+    " 이 때 들은 말을 끝으로 나는 정말로 입학 첫날로 돌아왔다... \n" +
+    "\n" +
+    " 준영이 : 수뭉이는... 실존했구나. 사랑해요 상명대! \n\n")
     
 
     #인트로 후 메인메뉴
@@ -444,17 +484,18 @@ def main_menu():
         for char in text:
             print(char, end='', flush=True)
             time.sleep(0.08)
+    move_cursor(0,10)
     print("\n")
-    print(" _______________메인 메뉴________________\n")
-    print(" |                                      |\n")
-    print(" |         > 스케쥴 표 (a)              |\n")
-    print(" |                                      |\n")
-    print(" |         > 교수님 만나기 (s)          |\n")
-    print(" |                                      |\n")
-    print(" |         > 자판기 (d)                 |\n")
-    print(" |                                      |\n")
-    print(" |         > 스탯 확인 (f)              |\n")
-    print(" |______________________________________|\n")
+    print(" ___________메인 메뉴___________\n")
+    print(" |                              |\n")
+    print(" | > 스케쥴 표 (a)              |\n")
+    print(" |                              |\n")
+    print(" | > 교수님 만나기 (s)          |\n")
+    print(" |                              |\n")
+    print(" | > 자판기 (d)                 |\n")
+    print(" |                              |\n")
+    print(" | > 스탯 확인 (f)              |\n")
+    print(" |______________________________|\n")
     print("\n")
     choice = input("무엇을 하시겠습니까? : \n")
     if choice == 'a':
@@ -478,7 +519,9 @@ def schedule():
         for char in text:
             print(char, end='', flush=True)
             time.sleep(0.05)
-    print_slow(" 준영이의 세 달을 정해주세요 !\n\n")
+    move_cursor(0,5)
+    print_slow(" 준영이의 세 달을 정해주세요 !\n")
+    print_slow("    <일정 3개를 선택하면 됩니다 ! >\n")
     print(" ____________________일 정_______________________\n")
     print(" |                                               |\n")
     print(" |             > 1. 알바 가기                    |\n")
@@ -503,9 +546,8 @@ def schedule():
     empty_scheduleList()
 
     while True:
-        choice = input("메뉴로 돌아가기(6): \n")
-        if choice == '6':
-            
+        choice = input("메뉴로 돌아가기(a): \n")
+        if choice == 'a':
             main_menu()
 
         elif choice == '1':
@@ -543,6 +585,9 @@ def schedule():
 def empty_scheduleList():
     global scheduleList
     scheduleList = []
+    
+
+
 
     
     #교수만나기메뉴
@@ -552,12 +597,19 @@ def professor():
         for char in text:
             print(char, end='', flush=True)
             time.sleep(0.09)
-    print("------연구실 앞------")
-    print("> 박교수님 만나러 가기 (1)\n")
-    print("> 김교수님 만나러 가기 (2)\n")
-    print("메뉴로 돌아가기 (3)")
-    print("--------------------")
-    choice = input("무엇을 하시겠습니까? : \n")
+    move_cursor(0,5)
+    print(" ____________연구실 앞____________\n")
+    print("|                                |\n")
+    print("| > 박교수님 만나러 가기 (1)     |\n")
+    print("|                                |\n")
+    print("| > 김교수님 만나러 가기 (2)     |\n")
+    print("|                                |\n")
+    print("| > 메뉴로 돌아가기 (3)          |\n")
+    print("|                                |\n")
+    print("|________________________________|\n")
+    print("\n")
+    choice = input(" 무엇을 하시겠습니까? : \n")
+    
 
     #교수님 선택
     if choice == '1':
@@ -568,34 +620,44 @@ def professor():
     elif choice == '3':
         main_menu()
     else:
-        print_slow("다시 입력하세요. 제발.\n")
+        print_slow("\033[36m다시 입력하세요. 제발!!\033[0m\n")
         professor()
+        
+def print_slow(text):
+    for char in text:
+        print(char, end='', flush=True)
+        time.sleep(0.08)
 
     #박교수님 선택
 def professor1():
     os.system('cls')
     global total_proheart1, total_brain
-    print_slow("준영이 : 박교수님 계세요?\n")
+    move_cursor(0,5)
+    print_slow("준영이 : 박교수님 계세요?\n\n")
     if total_brain > 10:
-        if total_brain >= 10:
-            print_slow("아 준영이 안녕~\n")
-            print_slow("1. 그냥요\n")
-            print_slow("2. 상담하고 싶은게 있어서 왔어요\n")
+        if total_brain > 10:
+            print_slow("박교수님 : 아 준영이 안녕~ 무슨일로 왔니~ ?\n\n")
+            print("________________선 택 창________________\n")
+            print("|                                       |\n")
+            print("| > 1. 그냥요                           |\n")
+            print("|                                       |\n")
+            print("| > 2. 상담하고 싶은게 있어서 왔어요    |\n")
+            print("|_______________________________________|\n")
 
             choice = input("어떤 대답을 할까? :\n")
             if choice == '1':
-                print_slow("\"그러니. 내가 좀 바빠서 미안해 (•_•).\"\n")
-                print_slow("쫓겨났다...\n")
+                print_slow("박교수님 : 그러니. 내가 좀 바빠서 미안해 (•_•).\"\n")
+                print_slow("（ヽ(*。>Д<)o゜쫓겨났다...\n")
                 like1 = proheart1()
                 total_proheart1 -= like1
-                print(f"김교수님의 호감도가 {like1} 내려가서 {total_proheart1}가 되었다 (┬┬﹏┬┬) \n")
+                print_slow(f"박교수님의 호감도가 {like1} 내려가서 {total_proheart1}가 되었다 (┬┬﹏┬┬) \n")
                 main_menu()
             elif choice == '2':
-                print_slow("\"아이고 그렇구나 잠시만, 여기 앉으면 돼\"\n")
+                print_slow("박 교수님 : 아이고 그렇구나 잠시만, 여기 앉으면 돼\n\n")
                 print_slow("준영이와 박교수님은 재밌게 대화를 나눴다\n")
                 like1 = proheart1()
                 total_proheart1 += like1
-                print(f"박교수님의 호감도가 {like1} 올라서 {total_proheart1}가 되었다 !")
+                print_slow(f"박교수님의 호감도가 {like1} 올라서 {total_proheart1}가 되었다 !")
                 main_menu()
             else:
                 print_slow("진짜 그럴거에요?\n")
@@ -603,17 +665,25 @@ def professor1():
         
     elif total_brain <= 10:
         print_slow("박소영 교수님은 자리에 안계시는 것 같다.\n")
+        print_slow("돌아가는 중. . .")
+        time.sleep(1)
         professor()
+        
 
+def print_slow(text):
+    for char in text:
+        print(char, end='', flush=True)
+        time.sleep(0.08)
 
     #김교수님 선택
 def professor2():
     os.system('cls')
     global total_proheart2, total_brain, total_code
+    move_cursor(0,5)
     print_slow("준영이 : 김교수님 계세요?\n")
     if total_brain >= 20 and total_code >= 20:
         if total_brain >= 20 and total_code >= 20:
-            print_slow("\"그래 어떤일로 왔니\"\n")
+            print_slow("그래 어떤일로 왔니\n")
             print_slow("1. 그냥요\n")
             print_slow("2. 상담하고 싶은게 있어서 왔어요\n")
 
@@ -637,7 +707,10 @@ def professor2():
                 main_menu()
     
     elif total_brain < 20 or total_code < 20:
-        print_slow("김석규 교수님은 자리에 안계시는 것 같다.")
+        print_slow("김석규 교수님은 자리에 안계시는 것 같다.\n")
+        print_slow("돌아가는 중. . .\n")
+        time.sleep(1)
+        
         main_menu()
         
     #자판기 메뉴
@@ -646,34 +719,35 @@ def store():
     global total_money, total_brain, total_code, total_health, total_stress
     
     if total_money >= 5:
-        print("\n")
+        move_cursor(0,5)
         print_slow(" 무엇을 마시던 상상이상!! 구매하지 않으면 불행이 옵니다.\n")
-        print("\n")
-        print("____________________________자 판 기__________________________")
-        print("\n")
-        print("> 1. 맛이 좋은 초록 이슬 (5원) \n")
-        print("       [스트레스 -20, 지능 -5]\n")
-        print_slow("      -마시면 기분이 좋아집니다-\n")
-        print("\n")
-        print("> 2. 스x피 커피우유 (10원) \n")
-        print("       [스트레스 +5, 지능 +10]\n")
-        print_slow("      -저런...잠을 잘자야 키가 커 준영아-\n")
-        print("\n")
-        print("> 3. 맛이 좋지 않은 사약 한 접시 (15원) \n")
-        print("       [스트레스 +10, 체력 +20]\n")
-        print_slow("      -사약은 몸에 좋은 재료로 이루어져 있다는 사실-\n")
-        print("\n")
-        print("> 4. 딸기 맛이 나는 해열제 (10원)\n")
-        print("      [스트레스 -20]\n")
-        print_slow("      -준영아 힘내! 아프지마 유유.-\n")
-        print("\n")
-        print("> 5. 색이알록달록한버섯을우린물 (25원) \n")
-        print("       [스트레스 -10, 코딩실력 +10, 지능 +10, 체력 -20]\n")
-        print_slow("      -히히...이거 마시면 나도 코딩을...-\n")
-        print("\n")
-        print("------------------------------------------------------")
+        print_slow("    < 숫자를 선택 해 구매하세요! > \n")
+        print("____________________________자 판 기_____________________________")
+        print("|                                                                |\n")
+        print("| > 1. 맛이 좋은 초록 이슬 (5원)                                 |\n")
+        print("|       [스트레스 -20, 지능 -5]                                  |\n")
+        print("|                 -마시면 기분이 좋아집니다-                     |\n")
+        print("|                                                                |\n")
+        print("| > 2. 스x피 커피우유 (10원)                                     |\n")
+        print("|       [스트레스 +5, 지능 +10]                                  |\n")
+        print("|                -저런...잠을 잘자야 키가 커 준영아-             |\n")
+        print("|                                                                |\n")
+        print("| > 3. 맛이 좋지 않은 사약 한 접시 (15원)                        |\n")
+        print("|       [스트레스 +10, 체력 +20]                                 |\n")
+        print("|                -사약은 몸에 좋은 재료로 이루어져 있다는 사실-  |\n")
+        print("|                                                                |\n")
+        print("| > 4. 딸기 맛이 나는 해열제 (10원)                              |\n")
+        print("|      [스트레스 -20]                                            |\n")
+        print("|                -준영아 힘내! 아프지마 유유.-                   |\n")
+        print("|                                                                |\n")
+        print("|> 5. 색이알록달록한버섯을우린물 (25원)                          |\n")
+        print("|       [스트레스 -10, 코딩실력 +10, 지능 +10, 체력 -20]         |\n")
+        print("|                -히히...이거 마시면 나도 코딩을...-             |\n")
+        print("|                                                                |\n")
+        print("|________________________________________________________________|")
 
     elif total_money <= 4:
+        move_cursor(5,20)
         print_slow(" 돈도 없으면서 뭘 사시려고요 ? 가서 돈벌어와\n")
         main_menu()
 
@@ -686,9 +760,11 @@ def store():
             total_stress -= 20
             total_brain -= 20
             total_money -= 5
+            time.sleep(1)
             main_menu()
         elif total_money < 5:
             print_slow(" < 소지금이 부족합니다...[거-지]>\n")
+            time.sleep(1)
             store()
 
     elif choice == '2': 
@@ -698,9 +774,11 @@ def store():
             total_stress += 5
             total_brain += 10
             total_money -= 10
+            time.sleep(1)
             main_menu()
         elif total_money <= 9:
             print_slow(" < 소지금이 부족합니다...[거-지]>\n")
+            time.sleep(1)
             store()
 
     elif choice == '3':
@@ -710,9 +788,11 @@ def store():
             total_stress += 10
             total_brain -= 20
             total_money -= 15
+            time.sleep(1)
             main_menu()
         elif total_money <= 14:
             print_slow(" < 소지금이 부족합니다...[거-지] >\n")
+            time.sleep(1)
             store()
         
     elif choice == '4':
@@ -724,19 +804,23 @@ def store():
             main_menu()
         elif total_money <= 9:
             print_slow(" < 소지금이 부족합니다...[거-지] >\n")
+            time.sleep(1)
             store()
     elif choice == '5':
         if total_money >= 25:
             print(" < 스트레스가 해소되고 체력이 떨어지고 코딩실력과 지능이 올라갔다 ! >\n")
             print_slow(" - 코딩 능력자가 되기 위해서는 뭐든 할 수 있어... -\n\n")
             total_stress -= 10
-            total_brain = 10
+            total_brain += 10
             total_code += 10
             total_health -= 20
             total_money -= 25
+            time.sleep(1)
+            
             main_menu()
         elif total_money <= 24:
             print_slow(" < 소지금이 부족합니다...[거-지] >\n")
+            time.sleep(1)
             store()
         
     elif choice == 'y':
@@ -747,9 +831,11 @@ def store():
             main_menu()
     elif choice == 'n':
             print_slow(" 감사합니다! 자판기 숫자를 선택해서 구매하시면 됩니다! \n")
+            time.sleep(1)
             store()    
     else:
         print_slow(" 뭐하세요? 뭐든 하세요.\n")
+        time.sleep(1)
         store()
 
     #스탯 메뉴 
@@ -757,24 +843,22 @@ def status():
     os.system('cls')
     global total_money, total_brain, total_code, total_health, total_proheart1, total_proheart2, total_stress
 
-
-
-    print("\n")
-    print(" ________________스 탯_________________\n")
+    move_cursor(0,5)
+    print("________________스 탯_________________\n")
     print("|                                     |\n")
-    print("|    지능:{:<27} |".format(total_brain))
+    print("| > 지능:{:<28} |".format(total_brain))
     print("|                                     |\n")
-    print("|    체력:{:<27} |".format(total_health))
+    print("| > 체력:{:<28} |".format(total_health))
     print("|                                     |\n")
-    print("|    스트레스:{:<23} |".format(total_stress))
+    print("| > 스트레스:{:<24} |".format(total_stress))
     print("|                                     |\n")
-    print("|    코딩실력:{:<23} |".format(total_code))
+    print("| > 코딩실력:{:<24} |".format(total_code))
     print("|                                     |\n")
-    print("|    소지금:{:<25} |".format(total_money))
+    print("| > 소지금:{:<26} |".format(total_money))
     print("|                                     |\n")
-    print("|    박교수님 호감도:{:<16} |".format(total_proheart1))
+    print("| > 박교수님 호감도:{:<17} |".format(total_proheart1))
     print("|                                     |\n")
-    print("|    김교수님 호감도:{:<16} |".format(total_proheart2))
+    print("| > 김교수님 호감도:{:<17} |".format(total_proheart2))
     print("|                                     |\n")
     print("|_____________________________________|\n")
     print("\n")
@@ -784,8 +868,8 @@ def status():
             for char in text:
                 print(char, end='', flush=True)
                 time.sleep(0.08)
-        choice = input("  > 메뉴로 돌아가기 (1): \n")
-        if choice == '1':
+        choice = input("  > 메뉴로 돌아가기 (a): \n")
+        if choice == 'a' or 'A':
             main_menu()
             break
         else:
