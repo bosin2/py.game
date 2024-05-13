@@ -108,6 +108,11 @@ def print_slow(text):
         print(char, end='', flush=True)
         time.sleep(0.06)
 
+def print_slow2(text,speed):
+    for char in text:
+        print(char, end='', flush=True)
+        time.sleep(speed)
+
 #일정 돌아가는 개월
 total_select_month = 0
 
@@ -174,7 +179,7 @@ def schedule_UpDown():
         for char in text:
             print(char, end='', flush=True)
             time.sleep(0.15)
-    print_slow("집으로 돌아가는 중. . .")
+    print_slow2("집으로 돌아가는 중. . .",0.05)
     main_menu()
     
     
@@ -393,7 +398,7 @@ def death():
         for char in text:
             print(char, end='', flush=True)
             time.sleep(0.1)
-    move_cursor(10,25)
+    move_cursor(0,20)
     color_print_slow(
         "준영이는 스트레스로 병에 걸려 생을 마감했습니다...\n"+
         "\n"+
@@ -406,6 +411,15 @@ def death():
         "다음에는 열심히 해보세요 ^_^. 당신의 이야기는 여기까지. 바이바이\n",
         "magenta"
         )
+    color_print("                                                                       ","red")
+    color_print("     ##                         ##                                  ## ","red") 
+    color_print("     ##    ####     ####        ##             ####    #####        ## ","red") 
+    color_print("  #####   ##  ##       ##    #####            ##  ##   ##  ##    ##### ","red") 
+    color_print(" ##  ##   ######    #####   ##  ##            ######   ##  ##   ##  ## ","red") 
+    color_print(" ##  ##   ##       ##  ##   ##  ##            ##       ##  ##   ##  ## ","red") 
+    color_print("  #####    ####     #####    #####             ####    ##  ##    ##### ","red") 
+                                                                        
+
     exit()
 
   #게임시작프린트
@@ -687,22 +701,26 @@ def professor2():
     print_slow("준영이 : 김교수님 계세요?\n")
     if total_brain >= 20 and total_code >= 20:
         if total_brain >= 20 and total_code >= 20:
-            print_slow("그래 어떤일로 왔니\n")
-            print_slow("1. 그냥요\n")
-            print_slow("2. 상담하고 싶은게 있어서 왔어요\n")
+            print_slow("김교수님 : 그래 어떤일로 왔니 ?\n")
+            print("________________선 택 창________________\n")
+            print("|                                       |\n")
+            print("| > 1. 그냥요                           |\n")
+            print("|                                       |\n")
+            print("| > 2. 상담하고 싶은게 있어서 왔어요    |\n")
+            print("|_______________________________________|\n")
 
             choice = input("어떤 대답을 할까? :\n")
             if choice == '1':
-                print_slow("\"그래? 할 말 없으면 이만 가자. 바쁘다 바뻐.\"\n")
-                print_slow("쫓겨났다...\n")
+                print_slow("김교수님 : 그래? 할 말 없으면 이만 가자. 바쁘다 바뻐. (¬_¬ ))\n")
+                print_slow("（；´д｀）ゞ쫓겨났다...\n")
                 like2 = proheart2()
                 total_proheart2 -= like2
-                print(f"김교수님의 호감도가 {like2} 내려가서 {total_proheart2}가 되었다\n")
+                print(f"김교수님의 호감도가 {like2} 내려가서 {total_proheart2}가 되었다 /(ㄒoㄒ)/~~)\n")
                 print_slow("돌아가는 중. . .\n")
                 time.sleep(1)
                 main_menu()
             elif choice == '2':
-                print_slow("\"그래? 여기 앉아봐, 뭐 상담 하려고\"\n")
+                print_slow("김교수님 : 그래? 여기 앉아봐, 뭐 상담 하려고? o(*￣▽￣*)ブ)\n\n")
                 print_slow("준영이와 김교수님은 재밌게 대화를 나눴다\n")
                 like2 = proheart2()
                 total_proheart2 += like2
@@ -891,6 +909,5 @@ def status():
     #main 코드만 실행되게하는 코드(name은 현재 진행중인 코드를 뜻함)
 if __name__ == "__main__":
         main()
-
 
 
