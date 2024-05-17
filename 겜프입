@@ -117,6 +117,50 @@ def print_slow2(text,speed):
         print(char, end='', flush=True)
         time.sleep(speed)
 
+def test():
+    clear()
+    move_cursor(0,5)
+    print_slow("벌써 시험을 보는 기간이 왔습니다... 과연 준영이의 점수는 ! ?\n")
+    print("\n")
+    if total_brain >= 200:
+         print_slow("만점입니다 !! 열심히 공부한 보람이 ! ! !ヾ(≧▽≦*)o\n")
+         print("\n")
+         time.sleep(1)
+    elif total_brain >= 180:
+         print_slow("으아 아쉽게 만점을 놓쳤다... 하지만 잘 했다 !(｡･∀･)ﾉﾞ\n")
+         print("\n")
+         time.sleep(1)
+    elif total_brain >= 150:
+         print_slow("이정도면 만족할만한 점수 !(～￣▽￣)～\n")
+         print("\n")
+         time.sleep(1)
+    elif total_brain >= 120:
+         print_slow("열심히 한정도 ~ ( •ω • )y\n")
+         print("\n")
+         time.sleep(1)
+    elif total_brain >= 100:
+         print_slow("조금만 더 열심히 해볼까 ? 화이팅 !\n")
+         print("\n")
+         time.sleep(1)
+    elif total_brain >= 80:
+         print_slow("아쉽다 （；´д｀）ゞ 조금만 더 열심히 해보자 !\n")
+         print("\n")
+         time.sleep(1)
+    elif total_brain >= 60:
+         print_slow("준영아 공부는 중요한 거야 ! ＞﹏＜\n")
+         print("\n")
+         time.sleep(1)
+    elif total_brain >= 40:
+         print_slow("또 시간을 돌려주지는 않는다고 ! ヽ（≧□≦）ノ\n")
+         print("\n")
+         time.sleep(1)
+    else:
+         print_slow("대체 뭘 한걸까...(⊙_⊙)？\n")
+         print("\n")
+         time.sleep(1)
+
+    main_menu()
+
 #일정 돌아가는 개월
 total_select_month = 3
 
@@ -138,6 +182,13 @@ total_money = 50
 total_proheart1 = 0
 total_proheart2 = 0
 
+#교수님 만나기 
+meet_proheart = 0
+
+
+#교수님 만남 횟수 제한 
+end_meet_proheart = 0
+
 #스케쥴 리스트 생성
 scheduleList = []
 
@@ -145,6 +196,7 @@ scheduleList = []
 #일정 증감
 def schedule_UpDown():
     global total_brain, total_code, total_health, total_money, total_stress, scheduleList, total_select_month, total_select_year
+    global teat
     clear()
     def print_slow(text):
         for char in text:
@@ -161,7 +213,7 @@ def schedule_UpDown():
                                 "\n"+
                                 f"소지금이 {m}원 올랐다!\n"+
                                 "\n"+
-                                f"체력이{h} 올랐다 !\n"+
+                                f"체력이 {h} 올랐다 !\n"+
                                 "\n"+
                                 f"스트레스가 {s} 올랐다 !\n")
                 
@@ -226,6 +278,33 @@ def schedule_UpDown():
     print("\n")
     print_slow2("집으로 돌아가는 중. . .\n", 0.05)
 
+#이벤트 
+
+    #밥 값
+    money(-10)
+    stress_RandomUp()
+
+    #시험 
+    for i in range(total_select_month, 16, 6):
+        test()
+     
+    #교수님 만나기 1씩 증가
+    meet_proheart += 1
+
+    #일정 돌릴 때마다 3개월씩 증가
+    total_select_month += 3 
+
+    #12개월 넘어가면 1년 더하고 3월로 설정
+    if total_select_month == 15:
+        total_select_year += 1 
+        total_select_month = 3 
+
+    if total_select_month == 9 or total_select_month == 3:
+        tuition()
+    
+    #일정 돌린 후 날짜 출력
+    print_date()
+
     
     
 
@@ -246,9 +325,14 @@ def schedule_UpDown():
     
 
 #등록금 함수
+#등록금 함수
 def tuition():
-    money(-50)
-    print_slow("벌써 한 학기가 지났네요...  등록금 50원이 차감됩니다...\n\n")
+    if total_money >= 50:
+        money(-50)
+        print_slow("벌써 한 학기가 지났네요...  등록금 50원이 차감됩니다...\n\n")
+    elif total_money < 50:   
+        print_slow("등록금을 낼 돈이 부족해요.")
+        death()
     
 #날짜 출력 함수
 def print_date():
@@ -582,14 +666,20 @@ def main_menu():
     choice = input("무엇을 하시겠습니까? : \n")
     if choice == 'a':
         schedule()
-    elif choice == 's':
+    elif choice == 's' and meet_proheart == 0:
         professor()
+    elif choice == 's' and meet_proheart == 1 and end_meet_proheart == 0:
+        end_meet_proheart += 1
+        professor()
+    elif choice == 's' and meet_proheart == 1 and end_meet_proheart == 1:
+        print_slow("일정 한 번에 교수님은 한 번만 만날 수 있어요.")
+        main_menu()
     elif choice == 'd':
         store()
     elif choice == 'f':
         status()
     else:
-        print_slow2("제대로 선택 하세요.\n",0.08)
+        print_slow("제대로 선택 하세요.\n")
         main_menu()
 
     #스케쥴 메뉴
