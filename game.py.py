@@ -905,8 +905,26 @@ def professor1():
     if total_brain > 10:
         #지능이 10 초과일 때만 +1 해야됨 (일정 돌릴 때 쓰던 코드를 여기로 옮김)
         end_meet_pro1 += 1
-        #if문은 조건이 큰 순서대로 먼저 써야함 (안그러면 조건 작은 거 실행시키고 끝나버림)
-        if total_proheart1 >= 35 and end_meet_pro1 >= 3:
+
+        if '조건':
+        
+        elif '조건':
+
+        elif '조건':
+
+        elif '조건':
+
+        elif '조건':
+
+        elif '조건':
+
+        elif '조건':
+
+        elif '조건':
+
+        elif '조건':
+
+        elif total_proheart1 >= 35 and end_meet_pro1 >= 3:
              print_slow("박교수님 : 준영아 안보여서 걱정했어 ~ (/▽＼) \n\n")
              print("________________선 택 창________________\n")
              print("|                                       |\n")
@@ -1146,8 +1164,25 @@ def professor2():
     if total_brain >= 20 and total_code >= 20:
         #지능이 20 이상이고 코딩실력이 20 이상일 때만 +1 해야됨 (일정 돌릴 때 쓰던 코드를 여기로 옮김)
         end_meet_pro2 += 1
-        #if문은 조건이 큰 순서대로 먼저 써야함 (안그러면 조건 작은 거 실행시키고 끝나버림)
-        if total_proheart2 >= 35 and end_meet_pro2 >= 3:
+        if '조건':
+        
+        elif '조건':
+
+        elif '조건':
+
+        elif '조건':
+
+        elif '조건':
+
+        elif '조건':
+
+        elif '조건':
+
+        elif '조건':
+
+        elif '조건':
+
+        elif total_proheart2 >= 35 and end_meet_pro2 >= 3:
              print_slow("김교수님 : 준영아 안보여서 걱정했어 ~ (/▽＼) \n\n")
              print("________________선 택 창________________\n")
              print("|                                       |\n")
